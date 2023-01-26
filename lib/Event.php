@@ -35,7 +35,8 @@ class Event{
                         'text'=>$this->output
                     ],
                 ]);
-                return curl_exec($curl);
+                $curlRes = curl_exec($curl);
+                return $curlRes;
             }else{
                 $this->output = "<b>Модуль: </b>".$this->module."\n<b>Тип события: </b>".$this->type;
                 $file = time().'log.txt';
@@ -55,7 +56,9 @@ class Event{
                         'document' => curl_file_create($filename, 'text/plain' , $file)
                     ],
                 ]);
-                return curl_exec($curl);
+                $curlRes = curl_exec($curl);
+                unlink($_SERVER['DOCUMENT_ROOT']. '/local/modules/pd.tg/files/'.$file);
+                return $curlRes;
             }
         }else{
             throw new \Error("Bot params wasn't found. Reinstall module.");
